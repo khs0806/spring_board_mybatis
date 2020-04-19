@@ -34,10 +34,9 @@ public class BoardController {
 	@RequestMapping(value = "/board/write", method = RequestMethod.POST)
 	public String write(BoardVO boardVO) throws Exception{
 		logger.info("write");
-		
 		service.write(boardVO);
 		
-		return "redirect:/";
+		return "redirect:/board/list";
 	}
 	
 	// 게시물 목록
@@ -66,7 +65,7 @@ public class BoardController {
 		logger.info("updateView");
 		BoardVO vo = service.read(boardVO.getBno());
 		model.addAttribute("update", vo);
-		
+	
 		return "board/updateView";
 	}
 	

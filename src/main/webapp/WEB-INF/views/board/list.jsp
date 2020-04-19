@@ -11,10 +11,9 @@
 				<h1> 게시판</h1>
 			</header>
 			<hr />
-			 
-			<nav>
-			  홈 - 글 목록
-			</nav>
+			 <div>
+				<%@include file="nav.jsp" %>
+			</div>
 			<hr />
 			
 			<section id="container">
@@ -36,6 +35,7 @@
 				</form>
 			</section>
 			<hr />
+			<a href="/board/writeView">글 작성하기</a>
 		</div>
 	</body>
 </html>
