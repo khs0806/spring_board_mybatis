@@ -8,11 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.co.service.BoardService;
 import kr.co.vo.BoardVO;
+import kr.co.vo.Criteria;
+import kr.co.vo.PageMaker;
 
 @Controller
 @RequestMapping("/board/*")
@@ -21,8 +24,10 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired
-	private BoardService service;
+	private PageMaker pageMaker;
 	
+	@Autowired
+	private BoardService service;
 	
 	// 게시판 글 작성 화면
 	@RequestMapping(value = "/board/writeView", method = RequestMethod.GET)
@@ -41,10 +46,15 @@ public class BoardController {
 	
 	// 게시물 목록
 	@RequestMapping(value ="/list", method = RequestMethod.GET)
-	public String listView(Model model) throws Exception{
+	public String listView(Model model, Criteria cri) throws Exception{
 		logger.info("list");
-		List<BoardVO> vo = service.list();
+		List<BoardVO> vo = service.list(cri);
 		model.addAttribute("list", vo);
+		
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "board/list";
 	}
 	

@@ -15,14 +15,34 @@
 	                 		  , #{writer}  )
    
    </insert>
-   <select id="list" resultType="kr.co.vo.BoardVO">
-   		SELECT BNO,
-   			   TITLE,
-   			   WRITER,
-   			   REGDATE
-   	    FROM MP_BOARD
-   	    ORDER BY BNO DESC
+   <!-- 게시물 리스트 페이징 -->
+   <select id="listPage" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.Criteria">
+		SELECT  BNO, 
+		        TITLE, 
+		        CONTENT,
+		        WRITER, 
+		        REGDATE	
+		 FROM ( 
+		        SELECT BNO, 
+		               TITLE, 
+		               CONTENT, 
+		               WRITER, 
+		               REGDATE, 
+		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
+		         FROM MP_BOARD 
+		                       ) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY BNO DESC
+	</select>
+   <!-- 게시물 총 갯수 -->
+   <select id="listCount" resultType="int">
+   	<![CDATA[
+		SELECT COUNT(BNO)
+		FROM MP_BOARD
+		WHERE BNO > 0
+	]]>
    </select>
+   <!-- 게시글 상세 조회 -->
    <select id="read" resultType="kr.co.vo.BoardVO">
    		SELECT BNO,
    			   TITLE,
@@ -32,16 +52,19 @@
    		FROM MP_BOARD
    		WHERE BNO = #{bno}	
    </select>
+   <!-- 게시글 수정하기 -->
    <update id="update" >
 		UPDATE MP_BOARD
 		SET TITLE   = #{title},
 		   	CONTENT = #{content}
 		WHERE BNO = #{bno} 
    </update>
-	
+	<!-- 게시글 삭제하기 -->
 	<delete id="delete">
 		DELETE 
 		FROM MP_BOARD
 		WHERE BNO = #{bno}
 	</delete>
+	
+	
 </mapper>
