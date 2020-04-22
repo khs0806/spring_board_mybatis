@@ -16,6 +16,7 @@ import kr.co.service.BoardService;
 import kr.co.vo.BoardVO;
 import kr.co.vo.Criteria;
 import kr.co.vo.PageMaker;
+import kr.co.vo.SearchCriteria;
 
 @Controller
 @RequestMapping("/board/*")
@@ -46,13 +47,13 @@ public class BoardController {
 	
 	// 게시물 목록
 	@RequestMapping(value ="/list", method = RequestMethod.GET)
-	public String listView(Model model, Criteria cri) throws Exception{
+	public String listView(Model model, SearchCriteria scri) throws Exception{
 		logger.info("list");
-		List<BoardVO> vo = service.list(cri);
+		List<BoardVO> vo = service.list(scri);
 		model.addAttribute("list", vo);
 		
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.listCount());
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount(scri));
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "board/list";
