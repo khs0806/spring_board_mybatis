@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,7 +48,7 @@ public class BoardController {
 	
 	// 게시물 목록
 	@RequestMapping(value ="/list", method = RequestMethod.GET)
-	public String listView(Model model, SearchCriteria scri) throws Exception{
+	public String listView(Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		logger.info("list");
 		List<BoardVO> vo = service.list(scri);
 		model.addAttribute("list", vo);
