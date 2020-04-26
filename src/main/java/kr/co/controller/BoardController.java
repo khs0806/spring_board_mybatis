@@ -68,11 +68,12 @@ public class BoardController {
 	
 	// 게시물 조회
 	@RequestMapping(value="/readView", method = RequestMethod.GET)
-	public String read(BoardVO boardVO, Model model) throws Exception{
+	public String read(BoardVO boardVO, Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		logger.info("read");
 		int bno = boardVO.getBno();
 		BoardVO vo = service.read(bno);
 		model.addAttribute("read", vo);
+		System.out.println(scri.getPerPageNum());
 		
 		// 댓글 리스트 
 		List<ReplyVO> rvo = replyService.readReply(bno);
@@ -114,6 +115,10 @@ public class BoardController {
 		logger.info("reply write");
 		replyService.writeReply(replyVO);
 		rttr.addAttribute("bno", replyVO.getBno());
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
 		return "redirect:/board/readView";
 	}
 	

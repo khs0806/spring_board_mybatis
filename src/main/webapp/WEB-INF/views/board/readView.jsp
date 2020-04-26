@@ -108,7 +108,10 @@
 				</div>
 				<form name="replyForm" method="post">
 				  <input type="hidden" id="bno" name="bno" value="${read.bno}" />
-				
+			      <input type="hidden" id="page" name="page" value="${scri.page}"> 
+				  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
+				  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
+				  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 				  <div>
 				    <label for="writer">댓글 작성자</label><input type="text" id="writer" name="writer" />
 				    <br/>
