@@ -3,6 +3,8 @@ package kr.co.controller;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.service.BoardService;
+import kr.co.service.ReplyService;
 import kr.co.vo.BoardVO;
 import kr.co.vo.Criteria;
 import kr.co.vo.PageMaker;
+import kr.co.vo.ReplyVO;
 import kr.co.vo.SearchCriteria;
 
 @Controller
@@ -27,9 +32,10 @@ public class BoardController {
 	
 	@Autowired
 	private PageMaker pageMaker;
-	
 	@Autowired
 	private BoardService service;
+	@Inject 
+	private ReplyService replyService;
 	
 	// 게시판 글 작성 화면
 	@RequestMapping(value = "/board/writeView", method = RequestMethod.GET)
@@ -48,7 +54,7 @@ public class BoardController {
 	
 	// 게시물 목록
 	@RequestMapping(value ="/list", method = RequestMethod.GET)
-	public String listView(Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
+	public String listView(Model model, SearchCriteria scri) throws Exception{
 		logger.info("list");
 		List<BoardVO> vo = service.list(scri);
 		model.addAttribute("list", vo);
@@ -64,10 +70,14 @@ public class BoardController {
 	@RequestMapping(value="/readView", method = RequestMethod.GET)
 	public String read(BoardVO boardVO, Model model) throws Exception{
 		logger.info("read");
-		System.out.println(boardVO.getContent());
 		int bno = boardVO.getBno();
 		BoardVO vo = service.read(bno);
 		model.addAttribute("read", vo);
+		
+		// 댓글 리스트 
+		List<ReplyVO> rvo = replyService.readReply(bno);
+		model.addAttribute("replyList", rvo);
+		
 		return "board/readView";
 	}
 	
@@ -96,6 +106,15 @@ public class BoardController {
 		int bno = boardVO.getBno();
 		service.delete(bno);
 		return "redirect:/board/list";
+	}
+	
+	// 댓글 작성
+	@RequestMapping(value="/replyWrite", method=RequestMethod.POST)
+	public String replyWrite(ReplyVO replyVO, SearchCriteria scri, RedirectAttributes rttr) throws Exception{
+		logger.info("reply write");
+		replyService.writeReply(replyVO);
+		rttr.addAttribute("bno", replyVO.getBno());
+		return "redirect:/board/readView";
 	}
 	
 }

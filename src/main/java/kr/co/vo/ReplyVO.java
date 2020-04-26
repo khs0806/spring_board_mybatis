@@ -2,10 +2,10 @@ package kr.co.vo;
 
 import java.util.Date;
 
-public class BoardVO {
+public class ReplyVO {
 
 	private int bno;
-	private String title;
+	private int rno;
 	private String content;
 	private String writer;
 	private Date regdate;
@@ -16,11 +16,11 @@ public class BoardVO {
 	public void setBno(int bno) {
 		this.bno = bno;
 	}
-	public String getTitle() {
-		return title;
+	public int getRno() {
+		return rno;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setRno(int rno) {
+		this.rno = rno;
 	}
 	public String getContent() {
 		return content;
@@ -40,10 +40,10 @@ public class BoardVO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
-	
 	@Override
 	public String toString() {
-		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
+		return "ReplyVO [bno=" + bno + ", rno=" + rno + ", content=" + content + ", writer=" + writer + ", regdate="
 				+ regdate + "]";
 	}
+	
 }

@@ -32,6 +32,12 @@
 				
 				location.href = "/board/list";
 			})
+			// 댓글 작성
+			$(".replyWriteBtn").on("click", function(){
+				  var formObj = $("form[name='replyForm']");
+				  formObj.attr("action", "/board/replyWrite");
+				  formObj.submit();
+			});
 		})
 	</script>
 	</head>
@@ -85,6 +91,33 @@
 					<button type="submit" class="delete_btn">삭제</button>
 					<button type="submit" class="list_btn">목록</button>	
 				</div>
+				
+				<!-- 댓글 -->
+				<div id="reply">
+				  <ol class="replyList">
+				    <c:forEach items="${replyList}" var="reply">
+				      <li>
+				        <p>
+				        작성자 : ${reply.writer}<br />
+				        작성 날짜 :  <fmt:formatDate value="${reply.regdate}" pattern="yyyy-MM-dd" />
+				        </p>
+				        <p>${reply.content}</p>
+				      </li>
+				    </c:forEach>   
+				  </ol>
+				</div>
+				<form name="replyForm" method="post">
+				  <input type="hidden" id="bno" name="bno" value="${read.bno}" />
+				
+				  <div>
+				    <label for="writer">댓글 작성자</label><input type="text" id="writer" name="writer" />
+				    <br/>
+				    <label for="content">댓글 내용</label><input type="text" id="content" name="content" />
+				  </div>
+				  <div>
+				 	 <button type="button" class="replyWriteBtn">작성</button>
+				  </div>
+				</form>
 			</section>
 			<hr />
 		</div>
