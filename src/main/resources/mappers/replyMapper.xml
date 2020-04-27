@@ -5,14 +5,14 @@
   
 <mapper namespace="replyMapper">
 
-<!-- 댓글 조회 -->
+	<!-- 댓글 조회 -->
 	<select id="readReply" resultType="kr.co.vo.ReplyVO">
     	SELECT
     		  RNO, CONTENT, WRITER, REGDATE
     	 FROM MP_REPLY
     	WHERE BNO = #{bno}
 	</select>
-	
+	<!-- 댓글 작성 -->
 	<insert id="writeReply">
 		INSERT INTO MP_REPLY(
 			BNO
@@ -26,5 +26,25 @@
 		   ,#{writer}
 		)
 	</insert>
+	<!-- 댓글 수정 -->	
+	<update id="updateReply" >
+		UPDATE MP_REPLY SET CONTENT = #{content}
+		WHERE RNO = #{rno}
+	</update>
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" >
+		DELETE FROM MP_REPLY
+		WHERE RNO = #{rno}
+	</delete>
+	<!-- 댓글 상세 조회 -->
+	<select id="selectReply" resultType="kr.co.vo.ReplyVO">
+		SELECT BNO
+			  ,RNO
+			  ,CONTENT
+			  ,WRITER
+			  ,REGDATE	 
+		FROM MP_REPLY
+		WHERE RNO = #{rno}
+	</select>
 	
 </mapper>

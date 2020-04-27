@@ -29,4 +29,20 @@ public class ReplyServiceImpl implements ReplyService {
 	public void writeReply(ReplyVO replyVO) throws Exception {
 		replyDAO.writeReply(replyVO);
 	}
+	// 댓글 수정
+	@Override
+	public void updateReply(ReplyVO replyVO) throws Exception {
+		replyDAO.updateReply(replyVO);
+	}
+	// 댓글 삭제
+	@Override
+	public void deleteReply(int rno) throws Exception {
+		replyDAO.deleteReply(rno);
+	}
+	// 댓글 상세 보기	
+	@Override
+	public ReplyVO selectReply(int rno) throws Exception {
+		ReplyVO vo = replyDAO.selectReply(rno);
+		return vo;
+	}
 }

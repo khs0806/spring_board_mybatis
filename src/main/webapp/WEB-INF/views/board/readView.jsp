@@ -38,6 +38,25 @@
 				  formObj.attr("action", "/board/replyWrite");
 				  formObj.submit();
 			});
+			//댓글 수정 View
+			$(".replyUpdateBtn").on("click", function(){
+				location.href = "/board/updateViewReply?bno=${read.bno}"
+								+ "&page=${scri.page}"
+								+ "&perPageNum=${scri.perPageNum}"
+								+ "&searchType=${scri.searchType}"
+								+ "&keyword=${scri.keyword}"
+								+ "&rno="+$(this).attr("data-rno");
+			});
+					
+			//댓글 삭제 View
+			$(".replyDeleteBtn").on("click", function(){
+				location.href = "/board/deleteViewReply?bno=${read.bno}"
+					+ "&page=${scri.page}"
+					+ "&perPageNum=${scri.perPageNum}"
+					+ "&searchType=${scri.searchType}"
+					+ "&keyword=${scri.keyword}"
+					+ "&rno="+$(this).attr("data-rno");
+			});
 		})
 	</script>
 	</head>
@@ -102,6 +121,10 @@
 				        작성 날짜 :  <fmt:formatDate value="${reply.regdate}" pattern="yyyy-MM-dd" />
 				        </p>
 				        <p>${reply.content}</p>
+				        <div>
+						  <button type="button" class="replyUpdateBtn" data-rno="${reply.rno}">수정</button>
+						  <button type="button" class="replyDeleteBtn" data-rno="${reply.rno}">삭제</button>
+						</div>
 				      </li>
 				    </c:forEach>   
 				  </ol>
