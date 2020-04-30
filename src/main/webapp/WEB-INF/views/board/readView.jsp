@@ -3,8 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 	<head>
+		<!-- 합쳐지고 최소화된 최신 CSS -->
+		<link rel="stylesheet" href="/resources/bootstrap.css">
+		<!-- 부가적인 테마 -->
+		<link rel="stylesheet" href="/resources/bootstrap.min.css">
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	 	<title>게시판</title>
+	 	<title>${read.title}</title>
 	 	<script type="text/javascript">
 		$(document).ready(function(){
 			var formObj = $("form[name='readForm']");
@@ -61,88 +65,91 @@
 	</script>
 	</head>
 	
-	
-	
 	<body>
-	
-		<div id="root">
+		<div class="container">
 			<header>
-				<h1> 게시판</h1>
-			</header>
-			<hr />
-			 
 			<div>
 				<%@include file="nav.jsp" %>
 			</div>
+			</header>
 			<hr />
-			
 			<section id="container">
 				<form name="readForm" role="form" method="post">
 					<input type="hidden" id="bno" name="bno" value="${read.bno}" />
+					<input type="hidden" id="page" name="page" value="${scri.page}"> 
+					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
+					<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
+					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 				</form>
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<label for="title">제목</label><input type="text" id="title" name="title" value="${read.title}" readonly="readonly" />
-							</td>
-						</tr>	
-						<tr>
-							<td>
-								<label for="content">내용</label><textarea id="content" name="content" readonly="readonly"><c:out value="${read.content}" /></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="writer">작성자</label><input type="text" id="writer" name="writer" value="${read.writer}"  readonly="readonly"/>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="regdate">작성날짜</label>
-								<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd" />					
-							</td>
-						</tr>		
-					</tbody>			
-				</table>
+			
+				<div class="form-group">
+					<label for="title" class="col-sm-2 control-label">제목</label>
+					<input type="text" id="title" name="title" class="form-control" value="${read.title}" readonly="readonly" />
+				</div>
+				<div class="form-group">
+					<label for="content" class="col-sm-2 control-label">내용</label>
+					<textarea id="content" name="content" class="form-control" readonly="readonly"><c:out value="${read.content}" /></textarea>
+				</div>
+				<div class="form-group">
+					<label for="writer" class="col-sm-2 control-label">작성자</label>
+					<input type="text" id="writer" name="writer" class="form-control" value="${read.writer}"  readonly="readonly"/>
+				</div>
+				<div class="form-group">
+					<label for="regdate" class="col-sm-2 control-label">작성날짜</label>
+					<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd" />	
+				</div>
 				<div>
-					<button type="submit" class="update_btn">수정</button>
-					<button type="submit" class="delete_btn">삭제</button>
-					<button type="submit" class="list_btn">목록</button>	
+					<button type="submit" class="update_btn btn btn-primary btn-xl" >수정</button>
+					<button type="submit" class="delete_btn btn btn-primary btn-xl">삭제</button>
+					<button type="submit" class="list_btn btn btn-primary btn-xl">목록</button>	
 				</div>
 				
 				<!-- 댓글 -->
-				<div id="reply">
+				<section class="comment-form">
+				<div id="reply" >
 				  <ol class="replyList">
 				    <c:forEach items="${replyList}" var="reply">
 				      <li>
-				        <p>
+				        <p class="comment-form-comment">
 				        작성자 : ${reply.writer}<br />
 				        작성 날짜 :  <fmt:formatDate value="${reply.regdate}" pattern="yyyy-MM-dd" />
 				        </p>
-				        <p>${reply.content}</p>
+				        <p class="comment-form-comment">${reply.content}</p>
 				        <div>
-						  <button type="button" class="replyUpdateBtn" data-rno="${reply.rno}">수정</button>
-						  <button type="button" class="replyDeleteBtn" data-rno="${reply.rno}">삭제</button>
+						  <button type="button" class="replyUpdateBtn btn btn-warning" data-rno="${reply.rno}">수정</button>
+						  <button type="button" class="replyDeleteBtn btn btn-danger" data-rno="${reply.rno}">삭제</button>
 						</div>
 				      </li>
 				    </c:forEach>   
 				  </ol>
 				</div>
-				<form name="replyForm" method="post">
-				  <input type="hidden" id="bno" name="bno" value="${read.bno}" />
-			      <input type="hidden" id="page" name="page" value="${scri.page}"> 
-				  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
-				  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
-				  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
-				  <div>
-				    <label for="writer">댓글 작성자</label><input type="text" id="writer" name="writer" />
-				    <br/>
-				    <label for="content">댓글 내용</label><input type="text" id="content" name="content" />
-				  </div>
-				  <div>
-				 	 <button type="button" class="replyWriteBtn">작성</button>
-				  </div>
+				</section>
+				<form name="replyForm" method="post" class="form-horizontal">
+					<label for="name">댓글 작성</label>
+					<input type="hidden" id="bno" name="bno" value="${read.bno}" />
+			        <input type="hidden" id="page" name="page" value="${scri.page}"> 
+				    <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
+				    <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
+				    <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}">
+					<div class="container">
+						<label for="name">name</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="writer" name="writer"
+								placeholder="이름을 입력하세요.">
+						</div>
+					</div>
+					<div class="container">
+						<label for="comment">comment</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="content"
+								name="content" placeholder="내용을 입력하세요.">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="button" class="replyWriteBtn btn btn-success">작성</button>
+						</div>
+					</div>
 				</form>
 			</section>
 			<hr />

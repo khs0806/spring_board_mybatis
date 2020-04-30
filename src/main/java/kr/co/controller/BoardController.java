@@ -87,7 +87,7 @@ public class BoardController {
 		logger.info("updateView");
 		BoardVO vo = service.read(boardVO.getBno());
 		model.addAttribute("update", vo);
-	
+		System.out.println(vo.toString());
 		return "board/updateView";
 	}
 	
