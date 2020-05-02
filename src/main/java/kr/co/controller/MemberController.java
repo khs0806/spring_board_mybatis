@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,4 +62,16 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	// 회원정보 수정뷰
+	@RequestMapping(value="/memberUpdateView", method=RequestMethod.GET)
+	public void memberUpdateView() throws Exception{
+	}
+	// 회원정보 수정
+	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
+	public String memberUpdate(MemberVO vo, HttpSession session) throws Exception{
+		memberService.memberUpdate(vo);
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 }
