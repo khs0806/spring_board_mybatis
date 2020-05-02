@@ -28,5 +28,16 @@
 	   ,USERNAME = #{userName}
 	    WHERE USERID = #{userId} 
 	</update>
-	
+	<!-- 회원탈퇴 -->
+	<delete id="memberDelete">
+		DELETE FROM MP_MEMBER
+		WHERE USERID = #{userId}
+		AND   USERPW = #{userPw}
+	</delete>
+	<!-- 패스워드 체크 --> 
+	<select id="passChk" resultType="int">
+		SELECT COUNT(*) FROM MP_MEMBER
+		WHERE USERID = #{userId}
+		AND   USERPW = #{userPw} 
+	</select>
 </mapper>
