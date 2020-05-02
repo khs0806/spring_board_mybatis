@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 	<head>
 		<!-- 합쳐지고 최소화된 최신 CSS -->
@@ -52,11 +53,11 @@
 			</div>
 			</header>
 			<hr />
-			
 			<section id="container" style="width:70%; margin: 0 auto;">
 			<form name="writeForm" role="form" method="post" action="/board/write">
 					<legend>글 작성하기</legend>
 					<hr>
+					<c:if test="${member.userId != null}">
 					<div class="form-group">
 						<label for="title">제목</label>
 						<input type="text" class="form-control chk" id="title" name="title"
@@ -74,6 +75,10 @@
 					</div>
 					<button type="submit" class="btn btn-primary write_btn">작성</button>
 					<button type="submit" class="btn btn-primary cancel_btn">취소</button>
+					</c:if>
+					<c:if test="${member.userId == null}">
+						<p>로그인 후에 작성하실 수 있어용</p>
+					</c:if>
 			</form>
 		</section>
 			<hr />

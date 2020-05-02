@@ -15,7 +15,7 @@
 			// 취소
 			$(".cencle").on("click", function(){
 				
-				location.href = "/login";
+				location.href = "/";
 						    
 			})
 		

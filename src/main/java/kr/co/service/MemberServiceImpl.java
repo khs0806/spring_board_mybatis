@@ -10,11 +10,18 @@ import kr.co.vo.MemberVO;
 @Service
 public class MemberServiceImpl implements MemberService {
 	
-	@Inject MemberDAO dao;
+	@Inject MemberDAO memberDAO;
+	
 	// 회원가입
 	@Override
 	public void register(MemberVO vo) throws Exception {
-		dao.register(vo);
+		memberDAO.register(vo);
+	}
+	// 로그인
+	@Override
+	public MemberVO login(MemberVO vo) throws Exception {
+		MemberVO memberVO = memberDAO.login(vo);
+		return memberVO;
 	}
 }
 
