@@ -66,12 +66,12 @@
 	</head>
 	
 	<body>
-		<div class="container">
 			<header>
 			<div>
 				<%@include file="nav.jsp" %>
 			</div>
 			</header>
+		<div class="container">
 			<hr />
 			<section id="container">
 				<form name="readForm" role="form" method="post">

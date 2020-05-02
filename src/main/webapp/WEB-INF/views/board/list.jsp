@@ -8,14 +8,23 @@
 		<!-- 부가적인 테마 -->
 		<link rel="stylesheet" href="/resources/bootstrap.min.css">
 	 	<title>게시판</title>
+	 	<style>
+	 		.pagination a.active {
+	 			cursor: default;
+	 			color: #ffffff;
+	 		}
+	 		.pagination a:active {
+				outline: none;	 		
+	 		}
+	 	</style>
 	</head>
 	<body>
-		<div id="container" >
 			<header>
 			 <div>
 				<%@include file="nav.jsp" %>
 			</div>
 			</header>
+		<div id="container" >
 		<section id="container">
 				<form role="form" method="get">
 					<table class="table table-hover" style="width:100%; margin: 0 auto;">
@@ -45,8 +54,9 @@
 						      <option value="tc"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
 						    </select>
 				        </div>
+				        	<!-- 글 검색 -->
 							<div class="input-group" style="flex:1; float: right;">
-					   		  <input class="form-control col-sm-3"
+					   		  <input class="form-control col-sm-3" placeholder="Search"
 					   		  type="text" name="keyword" id="keywordInput" value="${scri.keyword}"/>
 								<span class="input-group-btn" style="margin-left: 10px;">
 					   	   		  <button id="searchBtn" 
@@ -62,8 +72,11 @@
 						    </script>
 						  </div>
 						  <hr>
+						<!-- 페이징 -->  
 						<div>
 							<ul class="pagination" style="justify-content: center;">
+							<li class="page-item"><a class="page-link"
+									href="list${pageMaker.makeSearch(1)}">처음</a></li>
 							<c:if test="${pageMaker.prev}">
 								<li class="page-item"><a class="page-link"
 									href="list${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
