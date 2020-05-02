@@ -35,7 +35,18 @@ public class MemberController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String postRegister(MemberVO vo)throws Exception{
 		logger.info("post register");
-		memberService.register(vo);
+		int result = memberService.idChk(vo);
+		
+		try {
+			if (result == 1) {
+				return "member/register";
+			} else {
+				memberService.register(vo);
+			}
+			
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}
 		return "redirect:/";
 	}
 	// 로그인
@@ -108,5 +119,11 @@ public class MemberController {
 		System.out.println(result);
 		return result;
 	}
-	
+	// 아이디 중복체크
+	@ResponseBody
+	@RequestMapping(value="/idChk", method=RequestMethod.POST)
+	public int idChk(MemberVO vo) throws Exception {
+		int result = memberService.idChk(vo);
+		return result;
+	}
 }

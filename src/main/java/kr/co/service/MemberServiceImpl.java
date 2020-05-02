@@ -40,5 +40,11 @@ public class MemberServiceImpl implements MemberService {
 		int result = memberDAO.passChk(vo);
 		return result;
 	}
+	// 아이디 중복체크
+	@Override
+	public int idChk(MemberVO vo) throws Exception {
+		int result = memberDAO.idChk(vo);
+		return result;
+	}
 }
 

@@ -39,4 +39,10 @@ public class MemberDAOImpl implements MemberDAO {
 		int result = sqlSession.selectOne("memberMapper.passChk",vo);
 		return result;
 	}
+	// 아이디 중복 체크
+	@Override
+	public int idChk(MemberVO vo) throws Exception {
+		int result = sqlSession.selectOne("memberMapper.idChk", vo);
+		return result;
+	}
 }
