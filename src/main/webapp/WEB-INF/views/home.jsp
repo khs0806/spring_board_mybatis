@@ -29,10 +29,24 @@
 		$("#memberDeleteBtn").on("click", function(){
 			location.href="member/memberDeleteView";
 		})
+		$("#loginBtn").on("click", function(){
+			if($("#userId").val()==""){
+				alert("아이디를 입력해주세요.");
+				$("#userId").focus();
+				return false;
+			}
+			if($("#userPw").val()==""){
+				alert("비밀번호를 입력해주세요.");
+				$("#userPw").focus();
+				return false;
+			}
+			$("#loginForm").submit();
+		});
 	})
+	
 </script>
 <body>
-	<form name='homeForm' method="post" action="/member/login">
+	<form name='homeForm' method="post" action="/member/login" id="loginForm">
 		<c:if test="${member == null}">
 			<div>
 				<label for="userId"></label>
@@ -43,7 +57,7 @@
 				<input type="password" id="userPw" name="userPw">
 			</div>
 			<div>
-				<button type="submit">로그인</button>
+				<button id="loginBtn" type="button">로그인</button>
 				<button id="registerBtn" type="button">회원가입</button>
 			</div>
 		</c:if>

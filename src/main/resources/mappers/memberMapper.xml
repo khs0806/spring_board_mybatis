@@ -19,7 +19,7 @@
 		SELECT USERID, USERPW, USERNAME
 		FROM MP_MEMBER
 		WHERE USERID = #{userId}
-		AND   USERPW = #{userPw}
+		<!-- AND   USERPW = #{userPw} -->
 	</select>
 	<!-- 회원정보 수정 -->
 	<update id="memberUpdate">
@@ -32,7 +32,7 @@
 	<delete id="memberDelete">
 		DELETE FROM MP_MEMBER
 		WHERE USERID = #{userId}
-		AND   USERPW = #{userPw}
+		<!-- AND   USERPW = #{userPw} -->
 	</delete>
 	<!-- 패스워드 체크 --> 
 	<select id="passChk" resultType="int">

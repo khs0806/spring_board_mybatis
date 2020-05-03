@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,8 @@ public class MemberController {
 
 	@Inject
 	MemberService memberService;
+	
+	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -41,6 +44,9 @@ public class MemberController {
 			if (result == 1) {
 				return "member/register";
 			} else {
+				String input = vo.getUserPw();
+				String pwd = pwdEncoder.encode(input);
+				vo.setUserPw(pwd);
 				memberService.register(vo);
 			}
 			
@@ -53,16 +59,17 @@ public class MemberController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception{
 		logger.info("login");
+		
 		HttpSession session = req.getSession();
-		
 		MemberVO login = memberService.login(vo);
+		boolean pwdMatch = pwdEncoder.matches(vo.getUserPw(), login.getUserPw());
 		
-		if (login == null) {
-			session.setAttribute("member", null);
-			rttr.addFlashAttribute("msg", false);
-		} else {
+		if (login != null && pwdMatch == true) {
 			session.setAttribute("member", login);
 			System.out.println(login.toString());
+		} else {
+			session.setAttribute("member", null);
+			rttr.addFlashAttribute("msg", false);
 		}
 		return "redirect:/";
 	}
@@ -80,6 +87,10 @@ public class MemberController {
 	// 회원정보 수정
 	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
 	public String memberUpdate(MemberVO vo, HttpSession session) throws Exception{
+		String input = vo.getUserPw();
+		String pwd = pwdEncoder.encode(input);
+		vo.setUserPw(pwd);
+		System.out.println(vo.toString());
 		memberService.memberUpdate(vo);
 		session.invalidate();
 		return "redirect:/";
@@ -107,6 +118,7 @@ public class MemberController {
 //			session.invalidate();
 //			return "redirect:/";
 //		}
+		
 		memberService.memberDelete(vo);
 		session.invalidate();
 		return "redirect:/";
@@ -114,10 +126,10 @@ public class MemberController {
 	// 패스워드 체크
 	@ResponseBody
 	@RequestMapping(value="/passChk", method=RequestMethod.POST)
-	public int passChk(MemberVO vo) throws Exception{
-		int result = memberService.passChk(vo);
-		System.out.println(result);
-		return result;
+	public boolean passChk(MemberVO vo) throws Exception{
+		MemberVO login = memberService.login(vo);
+		boolean pwChk = pwdEncoder.matches(vo.getUserPw(), login.getUserPw());
+		return pwChk;
 	}
 	// 아이디 중복체크
 	@ResponseBody
