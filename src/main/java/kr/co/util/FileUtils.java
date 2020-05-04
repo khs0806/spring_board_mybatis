@@ -70,7 +70,7 @@ public class FileUtils {
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String, Object> listMap = null; 
 		int bno = boardVO.getBno();
-		while(iterator.hasNext()){ 
+		while(iterator.hasNext()){
 			multipartFile = mpRequest.getFile(iterator.next());  // iterator에 저장된 이름으로 multipartFile 객체 생성
 			if(multipartFile.isEmpty() == false){ // multipartFile 객체가 비어있지 않을 경우
 				originalFileName = multipartFile.getOriginalFilename(); // 원본 파일명 저장
@@ -86,11 +86,11 @@ public class FileUtils {
 				list.add(listMap); // DB에 저장 될 데이터 추가.
 			} 
 		}
-		if(files != null && fileNames != null){  // 
+		if(files != null && fileNames != null){  // 삭제시킬 파일 이름 널 값 체크
 			for(int i = 0; i<fileNames.length; i++) {
-					listMap = new HashMap<String,Object>();
-                    listMap.put("IS_NEW", "N");
-					listMap.put("FILE_NO", files[i]); 
+					listMap = new HashMap<String,Object>(); 
+                    listMap.put("IS_NEW", "N"); // N값을 넣어서 삭제될 데이터로 걸러준다.
+					listMap.put("FILE_NO", files[i]); // 파일 NO 입력
 					list.add(listMap); 
 			}
 		}

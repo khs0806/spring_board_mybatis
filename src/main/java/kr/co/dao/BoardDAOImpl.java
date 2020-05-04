@@ -50,6 +50,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public void delete(int bno) throws Exception {
 		sqlSession.delete("boardMapper.delete", bno);
 	}
+	// 게시글 조회수
+	@Override
+	public void boardHit(int bno) throws Exception {
+		sqlSession.update("boardMapper.boardHit", bno);
+	}
 	// 파일 업로드
 	@Override
 	public void insertFile(Map<String, Object> map) throws Exception {
@@ -72,8 +77,5 @@ public class BoardDAOImpl implements BoardDAO {
 	public void updateFile(Map<String, Object> map) throws Exception {
 		sqlSession.update("boardMapper.updateFile", map);
 	}
-
-	
-	
 
 }
