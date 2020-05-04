@@ -43,6 +43,17 @@
 				}
 			}
 		}
+		function fn_addFile(){
+			var fileIndex = 1;
+			//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+			$(".fileAdd_btn").on("click", function(){
+				$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"</button>"+"<button type='button' style='float:right;' id='fileDelBtn'>"+"삭제"+"</button></div>");
+			});
+			$(document).on("click","#fileDelBtn", function(){
+				$(this).parent().remove();
+				
+			});
+		}
 	</script>
 	<body>
 	
@@ -54,7 +65,7 @@
 			</header>
 			<hr />
 			<section id="container" style="width:70%; margin: 0 auto;">
-			<form name="writeForm" role="form" method="post" action="/board/write">
+			<form name="writeForm" role="form" method="post" action="/board/write" enctype="multipart/form-data">
 					<legend>글 작성하기</legend>
 					<hr>
 					<c:if test="${member.userId != null}">
@@ -73,7 +84,11 @@
 						<input type="text" class="form-control chk" id="writer" name="writer"
 							aria-describedby="emailHelp" placeholder="작성자"> 
 					</div>
+					<div class="form-group">
+						<input type="file" name="file" class="form-control chk" >
+					</div>
 					<button type="submit" class="btn btn-primary write_btn">작성</button>
+					<button class="fileAdd_btn" type="button">파일추가</button>
 					<button type="submit" class="btn btn-primary cancel_btn">취소</button>
 					</c:if>
 					<c:if test="${member.userId == null}">

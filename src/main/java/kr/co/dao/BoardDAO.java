@@ -1,6 +1,7 @@
 package kr.co.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.vo.BoardVO;
 import kr.co.vo.Criteria;
@@ -19,4 +20,12 @@ public interface BoardDAO {
 	public void update(BoardVO boardVO) throws Exception;
 	// 게시물 삭제
 	public void delete(int bno) throws Exception;
+	// 파일 업로드
+	public void insertFile(Map<String, Object> map) throws Exception;
+	// 파일 다운로드
+	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception;
+	// 파일 조회
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
+	// 첨부파일 수정
+	public void updateFile(Map<String, Object> map) throws Exception;
 }

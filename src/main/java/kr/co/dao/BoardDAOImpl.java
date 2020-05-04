@@ -1,6 +1,7 @@
 package kr.co.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,7 +16,7 @@ import kr.co.vo.SearchCriteria;
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 
-	@Autowired
+	@Inject
 	private SqlSession sqlSession;
 	
 	// 게시글 작성
@@ -48,6 +49,28 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public void delete(int bno) throws Exception {
 		sqlSession.delete("boardMapper.delete", bno);
+	}
+	// 파일 업로드
+	@Override
+	public void insertFile(Map<String, Object> map) throws Exception {
+		sqlSession.insert("boardMapper.insertFile", map);
+	}
+	// 파일 다운로드
+	@Override
+	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
+		Map<String, Object> down = sqlSession.selectOne("boardMapper.selectFileInfo", map);
+		return down;
+	}
+	// 파일 조회
+	@Override
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception {
+		List<Map<String, Object>> fileList = sqlSession.selectList("boardMapper.selectFileList", bno);
+		return fileList;
+	}
+	// 파일 수정
+	@Override
+	public void updateFile(Map<String, Object> map) throws Exception {
+		sqlSession.update("boardMapper.updateFile", map);
 	}
 
 	

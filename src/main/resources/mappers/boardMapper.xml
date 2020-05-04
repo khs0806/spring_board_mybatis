@@ -4,17 +4,66 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
    <!-- 게시판 글 작성 -->
-   <insert id="insert">
-	   INSERT INTO MP_BOARD(    BNO 
-	   					      , TITLE 
-	   					      , CONTENT 
-	   					      , WRITER  )
-	                 VALUES(    MP_BOARD_SEQ.NEXTVAL 
-	                 		  , #{title}
-	                 		  , #{content}
-	                 		  , #{writer}  )
-   
+   <!-- useGeneratedKeys는 자동적으로 증가되는 키를 받는 getGeneratedKeys()를 사용할 수 있게 true로 설정.
+		keyProperty는 selectKey에의해 선택된 키(keyProperty="bno")가 무엇인지 설정.
+		order="BEFORE"는 insert를 실행하기전에 실행한다는 설정. -->
+   <insert id="insert" parameterType="kr.co.vo.BoardVO" useGeneratedKeys="true" keyProperty="bno">
+	    <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	    	SELECT MP_BOARD_SEQ.NEXTVAL FROM DUAL <!-- 시퀀스 값을 selectKey를 이용하는 이유!?
+	    											   selectKey를 이용하여 생성된 값을 자식 테이블이나 
+	    											   참조 테이블에 쓸 쿼리문에  다시 활용하기
+	    											   위하여 저장한다는데 의미가 있다. -->
+	    </selectKey>
+	    INSERT INTO MP_BOARD(    BNO 
+	   					       , TITLE 
+	   					       , CONTENT 
+	   					       , WRITER  )
+	                  VALUES(    #{bno}
+	                 		   , #{title}
+	                 		   , #{content}
+	                 		   , #{writer}  )
    </insert>
+   
+   <!-- 파일 업로드 -->
+   <insert id="insertFile" parameterType="hashMap">
+		INSERT INTO MP_FILE(
+			FILE_NO,
+			BNO,
+			ORG_FILE_NAME,
+			STORED_FILE_NAME,
+			FILE_SIZE
+		)VALUES(
+			SEQ_MP_FILE_NO.NEXTVAL,
+			#{BNO},
+			#{ORG_FILE_NAME},
+			#{STORED_FILE_NAME},
+			#{FILE_SIZE}
+		)
+   </insert>
+   <!-- 첨부파일 다운 -->
+	<select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+		SELECT 
+			STORED_FILE_NAME,
+			ORG_FILE_NAME
+		FROM MP_FILE
+		WHERE FILE_NO = #{FILE_NO}
+	</select>
+   <!-- 첨부파일 조회 -->
+   <select id="selectFileList" parameterType="int" resultType="hashMap">
+	   SELECT FILE_NO,
+		    ORG_FILE_NAME,
+	  	    ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
+	   FROM MP_FILE
+	   WHERE BNO = #{BNO}
+	   AND DEL_GB = 'N'
+	   ORDER BY FILE_NO ASC
+   </select>
+   <!-- 파일 삭제(실제 파일 삭제x) -->
+   <update id="updateFile" parameterType="hashMap">
+  	   UPDATE MP_FILE SET
+  	   DEL_GB = 'Y'
+   	   WHERE FILE_NO = #{FILE_NO}
+   </update> 
    <!-- 게시물 리스트 페이징 -->
    <select id="listPage" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.Criteria">
 		SELECT  BNO, 
