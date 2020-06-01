@@ -69,6 +69,20 @@
 			formObj.submit();
 		}
 	</script>
+	<style type="text/css">
+		.form-horizontal > .reply > .replyName {
+			width: 250px;
+			margin: 5px;
+		}
+		.form-horizontal > .reply > .replyComment {
+			width: 800px;
+			margin: 5px;
+		}
+		.form-group > div{
+			margin:5px;
+			padding-left: 0px;
+		}
+	</style>
 	</head>
 	
 	<body>
@@ -116,47 +130,50 @@
 					<button type="submit" class="list_btn btn btn-primary btn-xl">목록</button>	
 				</div>
 				
-				<!-- 댓글 -->
+				<!-- 댓글 리스트 -->
 				<section class="comment-form">
-				<div id="reply" >
-				  <ol class="replyList">
-				    <c:forEach items="${replyList}" var="reply">
-				      <li>
-				        <p class="comment-form-comment">
-				        작성자 : ${reply.writer}<br />
-				        작성 날짜 :  <fmt:formatDate value="${reply.regdate}" pattern="yyyy-MM-dd" />
-				        </p>
-				        <p class="comment-form-comment">${reply.content}</p>
-				        <div>
-						  <button type="button" class="replyUpdateBtn btn btn-warning" data-rno="${reply.rno}">수정</button>
-						  <button type="button" class="replyDeleteBtn btn btn-danger" data-rno="${reply.rno}">삭제</button>
-						</div>
-				      </li>
-				    </c:forEach>   
-				  </ol>
-				</div>
+					<div id="reply" >
+					  <ol class="replyList">
+					    <c:forEach items="${replyList}" var="reply">
+					      <li>
+					        <p class="comment-form-comment">
+					        작성자 : ${reply.writer}<br />
+					        작성 날짜 :  <fmt:formatDate value="${reply.regdate}" pattern="yyyy-MM-dd" />
+					        </p>
+					        <p class="comment-form-comment">${reply.content}</p>
+					        <div>
+							  <button type="button" class="replyUpdateBtn btn btn-warning" data-rno="${reply.rno}">수정</button>
+							  <button type="button" class="replyDeleteBtn btn btn-danger" data-rno="${reply.rno}">삭제</button>
+							</div>
+					      </li>
+					    </c:forEach>   
+					  </ol>
+					</div>
 				</section>
+				<hr>
 				<form name="replyForm" method="post" class="form-horizontal">
-					<label for="name">댓글 작성</label>
-					<input type="hidden" id="bno" name="bno" value="${read.bno}" />
+					<div>
+	                	<span><strong>Comments</strong></span> <span id="cCnt"></span>
+	           	 	</div>
+					<input type="hidden" id="bno" name="bno" value="${read.bno}"/>
 			        <input type="hidden" id="page" name="page" value="${scri.page}"> 
 				    <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
 				    <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
 				    <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}">
-					<div class="container">
-						<label for="name">name</label>
-						<div class="input-group">
-							<input type="text" class="form-control" id="writer" name="writer"
-								placeholder="이름을 입력하세요.">
+				    <div class="reply">
+						<div class="replyName">
+							<div class="input-group">
+								<input type="text" class="form-control" id="writer" name="writer"
+									placeholder="이름을 입력하세요.">
+							</div>
 						</div>
-					</div>
-					<div class="container">
-						<label for="comment">comment</label>
-						<div class="input-group">
-							<input type="text" class="form-control" id="content"
-								name="content" placeholder="내용을 입력하세요.">
+						<div class="replyComment">
+							<div class="input-group">
+								<textarea rows="3" cols="30" placeholder="댓글을 입력하세요"
+								class="form-control" id="content" name="content"></textarea>
+							</div>
 						</div>
-					</div>
+				    </div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="button" class="replyWriteBtn btn btn-success">작성</button>
