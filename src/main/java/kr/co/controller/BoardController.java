@@ -64,7 +64,7 @@ public class BoardController {
 		logger.info("list");
 		List<BoardVO> vo = service.list(scri);
 		model.addAttribute("list", vo);
-		
+		model.addAttribute("scri", scri);
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount(scri));
 		model.addAttribute("pageMaker", pageMaker);

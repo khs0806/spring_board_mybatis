@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="/resources/bootstrap.css">
 		<!-- 부가적인 테마 -->
 		<link rel="stylesheet" href="/resources/bootstrap.min.css">
+	 	<link rel="stylesheet" href="/resources/login.css">
 	 	<title>게시판</title>
 	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	 	<style>
@@ -67,7 +68,6 @@
 			<section id="container" style="width:70%; margin: 0 auto;">
 			<form name="writeForm" role="form" method="post" action="/board/write" enctype="multipart/form-data">
 					<legend>글 작성하기</legend>
-					<hr>
 					<c:if test="${member.userId != null}">
 					<div class="form-group">
 						<label for="title">제목</label>
@@ -93,10 +93,42 @@
 					</c:if>
 					<c:if test="${member.userId == null}">
 						<p>로그인 후에 작성하실 수 있어용</p>
+						<button type="button" class="btn btn-primary" href="#myModal" data-toggle="modal">로그인 하기</button>
 					</c:if>
 			</form>
 		</section>
 			<hr />
 		</div>
+	<!-- Modal HTML -->
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="avatar">
+						<img src="/resources/image/img-01.png" alt="Avatar">
+					</div>				
+					<h4 class="modal-title">로그인</h4>	
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form action="/member/login" method="post">
+						<div class="form-group">
+							<input type="text" class="form-control" name="userId" placeholder="아이디" required="required">		
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" name="userPw" placeholder="비밀번호" required="required">	
+						</div>        
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a href="/member/register">회원가입</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 	</body>
 </html>

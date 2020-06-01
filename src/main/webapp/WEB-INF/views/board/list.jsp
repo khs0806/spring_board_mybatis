@@ -7,8 +7,9 @@
 		<link rel="stylesheet" href="/resources/bootstrap.css">
 		<!-- 부가적인 테마 -->
 		<link rel="stylesheet" href="/resources/bootstrap.min.css">
+		
 	 	<title>게시판</title>
-	 	<style>
+	 	<style type="text/css">
 	 		.pagination a.active {
 	 			cursor: default;
 	 			color: #ffffff;
@@ -16,6 +17,21 @@
 	 		.pagination a:active {
 				outline: none;	 		
 	 		}
+			.navbar .nav-link {
+				font-family: 맑은 고딕;
+		    	color: rgb(255, 255, 255);
+		    	font-weight: bold;
+			}
+			.navbar .nav-link a:hover{
+				color: yellow;
+			}
+			div[id="container"] {
+				margin:0 100px;
+			}
+			div .search {
+				padding:15px;
+			}
+			
 	 	</style>
 	</head>
 	<body>
@@ -27,7 +43,7 @@
 		<div id="container" >
 		<section id="container">
 				<form role="form" method="get">
-					<table class="table table-hover" style="width:100%; margin: 0 auto;">
+					<table class="table table-striped" style="margin: 0 auto;">
 						<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th><th>조회수</th></tr>
 						
 						<c:forEach items="${list}" var = "list">
@@ -43,16 +59,15 @@
 						</c:forEach>
 					</table>
 					  <div class="search row form-group" >
-					    <div style="float: left;">
+					    <div>
 					 	   <a class="create btn btn-success float-right" href="/board/writeView">글 작성하기</a>
 					    </div>
 					  	<div class="col-xs-2 col-sm-1" style="text-align:center">
 						    <select name="searchType" style="vertical-align:middle" class="custom-select">
-						      <option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
-						      <option value="t"<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
-						      <option value="c"<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
-						      <option value="w"<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
-						      <option value="tc"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
+						      <option value="t"<c:out value="${scri.searchType eq \"t\" ? 'selected=\"selected\"' : ''}"/>>제목</option>
+						      <option value="c"<c:out value="${scri.searchType eq \"c\" ? 'selected=\"selected\"' : ''}"/>>내용</option>
+						      <option value="w"<c:out value="${scri.searchType eq \"w\" ? 'selected=\"selected\"' : ''}"/>>작성자</option>
+						      <option value="tc"<c:out value="${scri.searchType eq \"tc\" ? 'selected=\"selected\"' : ''}"/>>제목+내용</option>
 						    </select>
 				        </div>
 				        	<!-- 글 검색 -->
@@ -99,5 +114,36 @@
 			<hr />
 			
 		</div>
+		<!-- Modal HTML -->
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="avatar">
+						<img src="/resources/image/img-01.png" alt="Avatar">
+					</div>				
+					<h4 class="modal-title">로그인</h4>	
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form action="/member/login" method="post">
+						<div class="form-group">
+							<input type="text" class="form-control" name="userId" placeholder="아이디" required="required">		
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" name="userPw" placeholder="비밀번호" required="required">	
+						</div>        
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a href="/member/register">회원가입</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>   
 	</body>
 </html>

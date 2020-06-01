@@ -91,7 +91,7 @@ public class FileUtils {
 					listMap = new HashMap<String,Object>(); 
                     listMap.put("IS_NEW", "N"); // N값을 넣어서 삭제될 데이터로 걸러준다.
 					listMap.put("FILE_NO", files[i]); // 파일 NO 입력
-					list.add(listMap); 
+					list.add(listMap);
 			}
 		}
 		return list; 

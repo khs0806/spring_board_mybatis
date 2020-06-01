@@ -76,7 +76,7 @@
 		</header>
 		<hr />
 		<div>
-			<%@include file="nav.jsp"%>
+			<span>수정하기</span>
 		</div>
 		<hr />
 
@@ -113,15 +113,15 @@
 						<input type="hidden" id="FILE_NO" name="FILE_NO_${var.index}" value="${file.FILE_NO}">
 						<input type="hidden" id="FILE_NAME" name="FILE_NAME" value="FILE_NO_${var.index}">
 						<a href="#" id="fileName" onclick="return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)
-						<button id="fileDel" onclick="fn_del('${file.FILE_NO}','FILE_NO_${var.index}');" type="button">삭제</button><br>
+						<button id="fileDel" onclick="fn_del('${file.FILE_NO}','FILE_NO_${var.index}');" type="button" class="btn btn-primary">파일삭제</button><br>
 					</div>
 					</c:forEach>
 				</div>
 			</form>
 			<div class="form-group">
-				<button type="button" class="update_btn">저장</button>
-				<button type="button" class="cancel_btn">취소</button>
-				<button type="button" class="fileAdd_btn">파일추가</button>
+				<button type="button" class="update_btn btn btn-primary">저장</button>
+				<button type="button" class="cancel_btn btn btn-primary">취소</button>
+				<button type="button" class="fileAdd_btn btn btn-primary">파일추가</button>
 			</div>
 		</section>
 		<hr />

@@ -59,19 +59,24 @@ public class MemberController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception{
 		logger.info("login");
-		
+		System.out.println(vo.toString());
 		HttpSession session = req.getSession();
 		MemberVO login = memberService.login(vo);
-		boolean pwdMatch = pwdEncoder.matches(vo.getUserPw(), login.getUserPw());
 		
-		if (login != null && pwdMatch == true) {
+		if (login == null) {
+			session.setAttribute("member", null);
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/";
+		}
+		boolean pwdMatch = pwdEncoder.matches(vo.getUserPw(), login.getUserPw());
+		if (pwdMatch == true) {
 			session.setAttribute("member", login);
-			System.out.println(login.toString());
+			return "redirect:/board/list";
 		} else {
 			session.setAttribute("member", null);
 			rttr.addFlashAttribute("msg", false);
+			return "redirect:/";
 		}
-		return "redirect:/";
 	}
 	// 로그아웃
 	@RequestMapping(value="/logout", method=RequestMethod.GET)

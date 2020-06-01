@@ -72,11 +72,6 @@
 	</head>
 	
 	<body>
-			<header>
-			<div>
-				<%@include file="nav.jsp" %>
-			</div>
-			</header>
 		<div class="container">
 			<hr />
 			<section id="container">
@@ -106,13 +101,15 @@
 					<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd" />	
 				</div>
 				<hr>
-				<span>파일 목록</span>
-				<div class="form-group" style="border: 1px solid #dbdbdb;">
-					<c:forEach var="file" items="${file}">
-						<a href="#" onclick="fn_fileDown('${file.FILE_NO}'); return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)<br>
-					</c:forEach>
-				</div>
+				<c:if test="${file != []}">
+					<span>파일 목록</span>
+					<div class="form-group" style="border: 1px solid #dbdbdb;">
+						<c:forEach var="file" items="${file}">
+							<a href="#" onclick="fn_fileDown('${file.FILE_NO}'); return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)<br>
+						</c:forEach>
+					</div>
 				<hr>
+				</c:if>
 				<div>
 					<button type="submit" class="update_btn btn btn-primary btn-xl" >수정</button>
 					<button type="submit" class="delete_btn btn btn-primary btn-xl">삭제</button>
