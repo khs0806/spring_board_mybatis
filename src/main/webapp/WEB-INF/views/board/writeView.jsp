@@ -93,7 +93,7 @@
 					</c:if>
 					<c:if test="${member.userId == null}">
 						<p>로그인 후에 작성하실 수 있어용</p>
-						<button type="button" class="btn btn-primary" href="#myModal" data-toggle="modal">로그인 하기</button>
+						<button type="button" class="trigger-btn btn btn-primary" href="#myModal" data-toggle="modal">로그인 하기</button>
 					</c:if>
 			</form>
 		</section>
